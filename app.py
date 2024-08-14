@@ -2,11 +2,12 @@ from flask import Flask, jsonify, render_template, request, redirect, url_for, a
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
+import re
 import sys
 
 app = Flask(__name__)
 # Modify this string with the appropriate database connection settings you have set up in your machine.
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["DATABASE_URL"]
+app.config['SQLALCHEMY_DATABASE_URI'] = re.sub(r"^postgres:", "postgresql:", os.environ["DATABASE_URL"])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -222,4 +223,3 @@ def index():
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=os.getenv("PORT", 3000))
-    
