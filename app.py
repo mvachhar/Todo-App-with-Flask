@@ -1,11 +1,12 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+import os
 import sys
 
 app = Flask(__name__)
 # Modify this string with the appropriate database connection settings you have set up in your machine.
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://aro1914:passsword@localhost:5432/tododb"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["DATABASE_URL"]
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
